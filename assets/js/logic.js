@@ -126,11 +126,12 @@ function getQuestion() {
 }
 
 console.log(getQuestion());
+
 // 3.1 Playing sound effect
-const sfxRight = new Audio("assets/sfx/right.mp3");
+const sfxRight = new Audio("assets/sfx/correct.wav");
 sfxRight.load();
 
-const sfxWrong = new Audio("assets/sfx/wrong.mp3");
+const sfxWrong = new Audio("assets/sfx/incorrect.wav");
 sfxWrong.load();
 
 // 3. Question Click
@@ -176,7 +177,60 @@ function questionClick() {
     getQuestion();
   }
 }
+
 // 4. Quiz End
+function quizEnd() {
+  // stop timer
+  clearInterval(timerId);
+
+  // show end screen
+  var endScreenEl = document.getElementById("end-screen");
+  endScreenEl.removeAttribute("class");
+
+  // show final score
+  var finalScoreEl = document.getElementById("final-score");
+  finalScoreEl.textContent = time;
+
+  // hide questions section
+  questionElement.setAttribute("class", "hide");
+}
+
 // 5. Clock Tick
+function clockTick() {
+  // update time
+  time--;
+  timerDisplay.textContent = time;
+
+  // check if user ran out of time
+  if (time <= 0) {
+    quizEnd();
+  }
+}
+
 // 6. Save Highscore
+function saveHighscore() {
+  // get value of input box
+  var initials = initialsInput.value.trim();
+
+  // make sure value wasn't empty
+  if (initials !== "") {
+    // get saved scores from localstorage, or if not any, set to empty array
+    var highscores =
+      JSON.parse(window.localStorage.getItem("highscores")) || [];
+
+    // format new score object for current user
+    var newScore = {
+      score: time,
+      initials: initials,
+    };
+
+    // save to localstorage
+    highscores.push(newScore);
+    window.localStorage.setItem("highscores", JSON.stringify(highscores));
+
+    // redirect to next page
+    window.location.href = "highscores.html";
+  }
+}
+
 // 7. Check Highscore
