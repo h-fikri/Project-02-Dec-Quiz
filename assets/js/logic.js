@@ -126,8 +126,56 @@ function getQuestion() {
 }
 
 console.log(getQuestion());
+// 3.1 Playing sound effect
+const sfxRight = new Audio("assets/sfx/right.mp3");
+sfxRight.load();
+
+const sfxWrong = new Audio("assets/sfx/wrong.mp3");
+sfxWrong.load();
 
 // 3. Question Click
+function questionClick() {
+  // check if user guessed wrong
+  if (this.value !== questions[currentQuestionIndex].answer) {
+    // penalize time
+    time -= 10;
+
+    if (time < 0) {
+      time = 0;
+    }
+
+    // display new time on page
+    timerDisplay.textContent = time;
+
+    // play "wrong" sound effect
+    sfxWrong.play();
+
+    feedbackElement.textContent = "Wrong!";
+    feedbackElement.style.color = "red";
+  } else {
+    // play "right" sound effect
+    sfxRight.play();
+
+    feedbackElement.textContent = "Correct!";
+    feedbackElement.style.color = "green";
+  }
+
+  // flash right/wrong feedback on page for half a second
+  feedbackElement.setAttribute("class", "feedback");
+  setTimeout(function () {
+    feedbackElement.setAttribute("class", "feedback hide");
+  }, 1000);
+
+  // move to next question
+  currentQuestionIndex++;
+
+  // check if we've run out of questions
+  if (currentQuestionIndex === questions.length) {
+    quizEnd();
+  } else {
+    getQuestion();
+  }
+}
 // 4. Quiz End
 // 5. Clock Tick
 // 6. Save Highscore
