@@ -44,3 +44,27 @@ Logic Behaviour:
 ===============
 
 */
+// Variable List as a reference to HTML elements:
+var startButton = document.getElementById("start-btn");
+var timerDisplay = document.getElementById("timer");
+var questionElement = document.getElementById("question");
+var choicesElement = document.getElementById("choices");
+var submitButton = document.getElementById("submit");
+var initialsInput = document.getElementById("initials"); // initial name
+var feedbackElement = document.getElementById("feedback");
+
+// Variable List for Logic:
+var currentQuestionIndex = 0;
+var time = questions.length * 25;
+var timerId;
+var score = 0;
+
+// Function List:
+// there are a number of function we need to do:
+// 1. Start Quiz
+// 2. Get Question
+// 3. Question Click
+// 4. Quiz End
+// 5. Clock Tick
+// 6. Save Highscore
+// 7. Check Highscore
