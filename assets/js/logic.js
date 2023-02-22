@@ -45,23 +45,57 @@ Logic Behaviour:
 
 */
 // Variable List as a reference to HTML elements:
-var startButton = document.getElementById("start-btn");
-var timerDisplay = document.getElementById("timer");
-var questionElement = document.getElementById("question");
-var choicesElement = document.getElementById("choices");
-var submitButton = document.getElementById("submit");
+var startButton = document.getElementById("start-btn"); // start button
+var timerDisplay = document.getElementById("timer"); // timer
+var questionElement = document.getElementById("question"); // question
+var choicesElement = document.getElementById("choices"); // choices
+var submitButton = document.getElementById("submit"); // submit button
 var initialsInput = document.getElementById("initials"); // initial name
-var feedbackElement = document.getElementById("feedback");
+var feedbackElement = document.getElementById("feedback"); // feedback
 
 // Variable List for Logic:
 var currentQuestionIndex = 0;
-var time = questions.length * 25;
+var time = questions.length * 50;
 var timerId;
 var score = 0;
 
 // Function List:
 // there are a number of function we need to do:
 // 1. Start Quiz
+// 2. Get Question
+// 3. Question Click
+// 4. Quiz End
+// 5. Clock Tick
+// 6. Save Highscore
+// 7. Check Highscore
+
+// 1. Start Quiz:
+function startQuiz() {
+  // hide start screen by adding class hide
+  var startScreenEl = document.getElementById("start-screen");
+  startScreenEl.setAttribute("class", "hide");
+
+  // un-hide questions section by removing class
+  questionElement.removeAttribute("class");
+
+  // start milisecond timer by calling clockTick function that we will do later.
+  timerId = setInterval(clockTick, 1000);
+
+  // show starting time on page by setting textContent of timerDisplay
+  timerDisplay.textContent = time;
+
+  getQuestion();
+}
+
+// console.log(startQuiz());
+
+/* The code above does the following:
+1. hides the start screen by adding the class hide
+2. unhides the questions section by removing the class hide
+3. starts the timer by calling clockTick function
+4. shows the timer on the page by setting the textContent of timerDisplay
+5. calls the function getQuestion */
+
 // 2. Get Question
 // 3. Question Click
 // 4. Quiz End
