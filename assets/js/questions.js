@@ -3,7 +3,7 @@
 const questions = [
   {
     question: "What is the capital of France?",
-    answers: {
+    choices: {
       a: "Paris",
       b: "Berlin",
       c: "Madrid",
@@ -13,7 +13,7 @@ const questions = [
   },
   {
     question: "What is the largest planet in our solar system?",
-    answers: {
+    choices: {
       a: "Mars",
       b: "Venus",
       c: "Jupiter",
