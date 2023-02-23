@@ -47,7 +47,7 @@ Logic Behaviour:
 // Variable List as a reference to HTML elements:
 var startButton = document.getElementById("start-btn"); // start button
 var timerDisplay = document.getElementById("timer"); // timer
-var questionElement = document.getElementById("question"); // question
+var questionElement = document.getElementById("questions"); // question
 var choicesElement = document.getElementById("choices"); // choices
 var submitButton = document.getElementById("submit"); // submit button
 var initialsInput = document.getElementById("initials"); // initial name
@@ -55,12 +55,11 @@ var feedbackElement = document.getElementById("feedback"); // feedback
 
 // Variable List for Logic:
 var currentQuestionIndex = 0;
-var time = questions.length * 50;
+var time = 100;
 var timerId;
 var score = 0;
 
 // Function List:
-// there are a number of function we need to do:
 // 1. Start Quiz
 // 2. Get Question
 // 3. Question Click
@@ -89,17 +88,11 @@ function startQuiz() {
 
 // console.log(startQuiz());
 
-/* The code above does the following:
-1. hides the start screen by adding the class hide
-2. unhides the questions section by removing the class hide
-3. starts the timer by calling clockTick function
-4. shows the timer on the page by setting the textContent of timerDisplay
-5. calls the function getQuestion */
-
 // 2. Get Question
 function getQuestion() {
   // get current question object from array
   var currentQuestion = questions[currentQuestionIndex];
+  // console.log(currentQuestion);
 
   // update title with current question
   var titleEl = document.getElementById("question-title");
@@ -125,13 +118,13 @@ function getQuestion() {
   });
 }
 
-console.log(getQuestion());
+// console.log(getQuestion());
 
 // 3.1 Playing sound effect
 const sfxRight = new Audio("assets/sfx/correct.wav");
 sfxRight.load();
 
-const sfxWrong = new Audio("assets/sfx/incorrect.wav");
+const sfxWrong = new Audio("assets/sfx/wrong.mp3");
 sfxWrong.load();
 
 // 3. Question Click
@@ -183,13 +176,16 @@ function quizEnd() {
   // stop timer
   clearInterval(timerId);
 
+  // calculate the final score as a percentage of the maximum score (100)
+  var finalScore = Math.max(Math.floor((time / 100) * 100), 0);
+
   // show end screen
   var endScreenEl = document.getElementById("end-screen");
   endScreenEl.removeAttribute("class");
 
   // show final score
   var finalScoreEl = document.getElementById("final-score");
-  finalScoreEl.textContent = time;
+  finalScoreEl.textContent = finalScore; // display final score as a percentage of the maximum score (100)
 
   // hide questions section
   questionElement.setAttribute("class", "hide");
@@ -209,28 +205,36 @@ function clockTick() {
 
 // 6. Save Highscore
 function saveHighscore() {
-  // get value of input box
   var initials = initialsInput.value.trim();
 
-  // make sure value wasn't empty
   if (initials !== "") {
-    // get saved scores from localstorage, or if not any, set to empty array
     var highscores =
       JSON.parse(window.localStorage.getItem("highscores")) || [];
 
-    // format new score object for current user
     var newScore = {
       score: time,
       initials: initials,
     };
 
-    // save to localstorage
     highscores.push(newScore);
     window.localStorage.setItem("highscores", JSON.stringify(highscores));
 
-    // redirect to next page
     window.location.href = "highscores.html";
   }
 }
 
-// 7. Check Highscore
+// 6.1 Check for enter key
+function checkForEnter(event) {
+  // "13" represents the enter key
+  if (event.key === "Enter") {
+    saveHighscore();
+  }
+}
+
+// user clicks button to start quiz
+startButton.onclick = startQuiz;
+
+// user clicks button to submit initials
+submitButton.onclick = saveHighscore;
+
+initialsInput.onkeyup = checkForEnter;
