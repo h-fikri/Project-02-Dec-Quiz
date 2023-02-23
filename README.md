@@ -20,4 +20,10 @@ Create a code quiz that contains the following requirements:
 
 ## Challenges
 
+- There are plenty of function chain reaction making the code debugging really painful.
+- If there are one bug inside the function, it will break the whole code.
+- I hope I can find more efficient way to debug the code.
+
 ## Screenshots
+
+Demo Link: https://github.com/h-fikri/Project-02-Dec-Quiz/blob/main/non-asset/Javascript%20Quiz%20Demo.gif
