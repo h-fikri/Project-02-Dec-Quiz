@@ -1,6 +1,6 @@
 // make a list of questions for a quiz in javascript
 // Define an array of objects containing questions and answers
-const questions = [
+var questions = [
   {
     title: "Which of the following is NOT a markup language?",
     choices: ["HTML", "CSS", "JavaScript", "XML"],
